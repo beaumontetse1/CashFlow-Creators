@@ -59,8 +59,8 @@ get_financial_advice_button = tkinter.Button(
 )
 
 _placeholder_graph.grid( row = 0, column = 0 )
-insert_new_expense_button.grid( row = 0, column = 0, sticky = "ew" )
-insert_new_income_button.grid( row = 1, column = 0, sticky = "ew" )
+insert_new_expense_button.grid  ( row = 0, column = 0, sticky = "ew" )
+insert_new_income_button.grid   ( row = 1, column = 0, sticky = "ew" )
 get_financial_advice_button.grid( row = 2, column = 0, sticky = "ew" )
 
 main_window.mainloop()
