@@ -6,10 +6,12 @@ cursor = conn.cursor()
 
 cursor.execute('''CREATE TABLE IF NOT EXISTS UserAccounts(
                 user_id INTERGER PRIMARY KEY,
+                name TEXT,
                 email TEXT,
                 username TEXT,
                 password TEXT,
-                phone_number TEXT
+                phone_number TEXT,
+                date_of_birth TEXT
                 )
 ''')
 
@@ -17,6 +19,8 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS Incomes(
                 income_id INTEGER PRIMARY KEY,
                 name TEXT,
                 amount REAL,
+                description TEXT,
+                date TEXT,
                 user_id INTEGER,
                 FOREIGN KEY (user_id) REFERENCES UserAccounts(user_id)
                 )
@@ -26,6 +30,8 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS Expenses(
                 expense_id INTEGER PRIMARY KEY,
                 name TEXT,
                 amount REAL,
+                description TEXT,
+                date TEXT,
                 user_id INTEGER,
                 FOREIGN KEY (user_id) REFERENCES UserAccounts(user_id)
                 )
@@ -33,6 +39,20 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS Expenses(
 
 cursor.execute('''CREATE TABLE IF NOT EXISTS Balance(
                 balance_id INTEGER PRIMARY KEY,
+                amount REAL,
+                date TEXT,
+                user_id INTEGER,
+                FOREIGN KEY (user_id) REFERENCES UserAccounts(user_id)
+                )
+''')
+
+cursor.execute('''CREATE TABLE IF NOT EXISTS Budget(
+                budget_id INTEGER PRIMARY KEY,
+                start_date TEXT,
+                end_date TEXT,
+                total_budget REAL,
+                remaining_amount REAL,
+                description TEXT,
                 user_id INTEGER,
                 FOREIGN KEY (user_id) REFERENCES UserAccounts(user_id)
                 )
@@ -42,6 +62,8 @@ conn.commit()
 def insert_income():
     name = income_name.get()
     amount = float(income_amount.get())
+    # description = description.get()
+    # date = date.get()
     user_id = 1  # For simplicity, assuming a single user with userid 1
     cursor.execute('INSERT INTO Incomes (name, amount, user_id) VALUES (?, ?, ?)', (name, amount, user_id))
     conn.commit()
@@ -51,6 +73,8 @@ def insert_income():
 def insert_expense():
     name = expense_name.get()
     amount = float(expense_amount.get())
+    # description = description.get()
+    # date = date.get()
     user_id = 1  # For simplicity, assuming a single user with userid 1
     cursor.execute('INSERT INTO Expenses (name, amount, user_id) VALUES (?, ?, ?)', (name, amount, user_id))
     conn.commit()
@@ -65,6 +89,17 @@ def update_balance_label():
     total_expense = cursor.fetchone()[0] or 0
     balance = total_income - total_expense
     balance_label.config(text=f'Balance: ${balance:.2f}')
+
+# Create a function to create a budget
+# Leaving this code out for now, might be separate popup page for creating budget
+# def create_budget():
+#     budget_id = 1
+#     start_date = .get()
+#     end_date = .get()
+#     budget_amount = float(.get())
+#     remaining_amount = float(.get())
+#     user_id = ?
+
 
 # Create the main application window
 root = tk.Tk()
